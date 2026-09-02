@@ -10,6 +10,7 @@ import {
     Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { useTheme } from '../Context/ThemeContext';
 
 ChartJS.register(
     CategoryScale,
@@ -18,36 +19,30 @@ ChartJS.register(
     LineElement,
     Title,
     Tooltip,
-    Legend,
-)
+    Legend
+);
 
+const Graph = ({ graphData }) => {
+    const { theme } = useTheme();
 
-const Graph = ()=>{
-    return(
-        <>
-            <Line 
-                data={{
-                    labels: ['January', 'February', 'March', 'April', 'May'],
-                    datasets: [
-                        {
-                            label: 'My First Dataset',
-                            data: [65, 59, 80, 81, 56],
-                            fill: false,
-                            borderColor: 'rgb(75, 192, 192)',
-                            tension: 0.1
-                        },
-                        {
-                            label: 'My Second Dataset',
-                            data: [28, 48, 40, 19, 96],
-                            fill: false,
-                            borderColor: 'rgb(255, 99, 132)',
-                            tension: 0.1
-                        }
-                    ]
-                }}
-            /> 
-        </>
-    )
-}
+    return (
+        <Line 
+            data={{
+                // Extract time (seconds) for X-axis labels
+                labels: graphData.map((item) => item[0]), 
+                datasets: [
+                    {
+                        label: 'WPM',
+                        // Extract calculated WPM values for Y-axis points
+                        data: graphData.map((item) => item[1]), 
+                        fill: false,
+                        borderColor: theme ? theme.main : '#e2b714',
+                        tension: 0.2
+                    }
+                ]
+            }}
+        /> 
+    );
+};
 
-export default Graph
+export default Graph;

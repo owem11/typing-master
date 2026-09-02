@@ -18,6 +18,17 @@ const TypingBox = () => {
     const [currentCharIndex, setCurrentCharIndex] = useState(0);
     const [correctChars, setCorrectChars] = useState(0);
     const [incorrectChars, setIncorrectChars] = useState(0);
+    
+    // Word counter states
+    const [correctWords, setCorrectWords] = useState(0);
+    const [incorrectWords, setIncorrectWords] = useState(0);
+
+    const [graphData, setGraphData] = useState([]);
+
+    const correctCharsRef = useRef(correctChars);
+    useEffect(() => {
+        correctCharsRef.current = correctChars;
+    }, [correctChars]);
 
     const wordSpanRef = useMemo(() => {
         return Array(wordsArray.length).fill(0).map(() => createRef());
@@ -39,17 +50,30 @@ const TypingBox = () => {
 
     useEffect(() => {
         let interval = null;
-        if (testStarted && countDown > 0) {
+        if (testStarted) {
             interval = setInterval(() => {
-                setCountDown((prev) => prev - 1);
+                setCountDown((prev) => {
+                    if (prev <= 1) {
+                        setTestEnded(true);
+                        setTestStarted(false);
+                        clearInterval(interval);
+                        return 0;
+                    }
+
+                    const timeElapsed = testTime - (prev - 1);
+                    const currentWpm = Math.round((correctCharsRef.current / 5) / (timeElapsed / 60)) || 0;
+
+                    setGraphData((graphPrev) => [
+                        ...graphPrev,
+                        [timeElapsed, currentWpm]
+                    ]);
+
+                    return prev - 1;
+                });
             }, 1000);
-        } else if (countDown === 0) {
-            setTestEnded(true);
-            setTestStarted(false);
-            clearInterval(interval);
         }
         return () => clearInterval(interval);
-    }, [testStarted, countDown]);
+    }, [testStarted, testTime]);
 
     const handleKeyDown = (e) => {
         if (testEnded) return;
@@ -64,6 +88,17 @@ const TypingBox = () => {
         if (e.keyCode === 32) {
             if (currentCharIndex < currentWordSpans.length) {
                 currentWordSpans[currentCharIndex].classList.remove('current');
+            }
+
+            // Check if every character in the word was typed correctly
+            const isWordCorrect = Array.from(currentWordSpans).every((span) =>
+                span.classList.contains('correct')
+            );
+
+            if (isWordCorrect && currentWordSpans.length > 0) {
+                setCorrectWords((prev) => prev + 1);
+            } else {
+                setIncorrectWords((prev) => prev + 1);
             }
 
             if (currentWordIndex + 1 < wordSpanRef.length) {
@@ -113,9 +148,12 @@ const TypingBox = () => {
         setCurrentCharIndex(0);
         setCorrectChars(0);
         setIncorrectChars(0);
+        setCorrectWords(0);
+        setIncorrectWords(0);
         setTestStarted(false);
         setTestEnded(false);
         setWordsArray(randomWords(50));
+        setGraphData([]);
         focusInput();
     };
 
@@ -134,10 +172,9 @@ const TypingBox = () => {
                 <Stats 
                     wpm={calculateWPM()} 
                     accuracy={Math.round((correctChars / (correctChars + incorrectChars || 1)) * 100)} 
-                    correctChars={correctChars}
-                    incorrectChars={incorrectChars}
-                    missedChars={0}
-                    extraChars={0}
+                    correctWords={correctWords}
+                    incorrectWords={incorrectWords}
+                    graphData={graphData}
                     resetTest={resetTest}
                 />
             ) : (

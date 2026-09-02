@@ -241,4 +241,34 @@ export const GlobalStyles = createGlobalStyle`
     color: var(--main-color);
     margin-bottom: 20px;
 }
+.stats-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.restart-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.restart-btn {
+    padding: 10px 28px;
+    font-size: 1rem;
+    background-color: var(--main-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: opacity 0.2s ease;
+}
+
+.restart-btn:hover {
+    opacity: 0.85;
+}
+
+
 `;
