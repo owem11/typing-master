@@ -1,24 +1,23 @@
 import React, { createRef, useEffect, useMemo, useRef, useState } from 'react';
 import UpperMenu from './UpperMenu';
+import Stats from './Stats';
 import { useTestMode } from '../Context/TestModeContext';
 import { generate as randomWords } from 'random-words';
 
 const TypingBox = () => {
     const inputRef = useRef(null);
     const { testTime } = useTestMode();
+    
+    // State Declarations
     const [countDown, setCountDown] = useState(testTime);
     const [testStarted, setTestStarted] = useState(false);
     const [testEnded, setTestEnded] = useState(false);
     
-    const [wordsArray, setWordsArray] = useState(() => {
-        return randomWords(50);
-    });
-
+    const [wordsArray, setWordsArray] = useState(() => randomWords(50));
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [currentCharIndex, setCurrentCharIndex] = useState(0);
     const [correctChars, setCorrectChars] = useState(0);
     const [incorrectChars, setIncorrectChars] = useState(0);
-    const [correctWords, setCorrectWords] = useState(0);
 
     const wordSpanRef = useMemo(() => {
         return Array(wordsArray.length).fill(0).map(() => createRef());
@@ -61,6 +60,7 @@ const TypingBox = () => {
 
         const currentWordSpans = wordSpanRef[currentWordIndex].current.childNodes;
 
+        // Spacebar logic
         if (e.keyCode === 32) {
             if (currentCharIndex < currentWordSpans.length) {
                 currentWordSpans[currentCharIndex].classList.remove('current');
@@ -74,6 +74,7 @@ const TypingBox = () => {
             return;
         }
 
+        // Backspace logic
         if (e.keyCode === 8) {
             if (currentCharIndex !== 0) {
                 if (currentCharIndex < currentWordSpans.length) {
@@ -85,6 +86,7 @@ const TypingBox = () => {
             return;
         }
 
+        // Character typing logic
         if (currentCharIndex < currentWordSpans.length) {
             if (e.key === currentWordSpans[currentCharIndex].innerText) {
                 currentWordSpans[currentCharIndex].className = 'char correct';
@@ -109,6 +111,8 @@ const TypingBox = () => {
         setCountDown(testTime);
         setCurrentWordIndex(0);
         setCurrentCharIndex(0);
+        setCorrectChars(0);
+        setIncorrectChars(0);
         setTestStarted(false);
         setTestEnded(false);
         setWordsArray(randomWords(50));
@@ -126,7 +130,17 @@ const TypingBox = () => {
                 onKeyDown={handleKeyDown}
             />
 
-            {!testEnded ? (
+            {testEnded ? (
+                <Stats 
+                    wpm={calculateWPM()} 
+                    accuracy={Math.round((correctChars / (correctChars + incorrectChars || 1)) * 100)} 
+                    correctChars={correctChars}
+                    incorrectChars={incorrectChars}
+                    missedChars={0}
+                    extraChars={0}
+                    resetTest={resetTest}
+                />
+            ) : (
                 <div className="words-wrapper">
                     {wordsArray.map((word, index) => (
                         <span className="word" key={index} ref={wordSpanRef[index]}>
@@ -140,13 +154,6 @@ const TypingBox = () => {
                             ))}
                         </span>
                     ))}
-                </div>
-            ) : (
-                <div className="result-view">
-                    <h1>Test Completed</h1>
-                    <h2>WPM: {calculateWPM()}</h2>
-                    <h2>Accuracy: {Math.round((correctChars / (correctChars + incorrectChars || 1)) * 100)}%</h2>
-                    <button onClick={resetTest}>Restart</button>
                 </div>
             )}
         </div>

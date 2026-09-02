@@ -1,12 +1,12 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
-:root {
-    --bg-color: #000;
-    --main-color: #e100ff;
-    --sub-color: #646669;
-    --text-color: #d1d0c5;
-    --error-color: #a80919;
+  :root {
+    --bg-color: ${({ theme }) => theme.bg};
+    --main-color: ${({ theme }) => theme.main};
+    --sub-color: ${({ theme }) => theme.sub};
+    --text-color: ${({ theme }) => theme.text};
+    --error-color: ${({ theme }) => theme.error};
   }
 
   * {
@@ -23,6 +23,7 @@ export const GlobalStyles = createGlobalStyle`
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   .App {
@@ -36,13 +37,14 @@ export const GlobalStyles = createGlobalStyle`
     min-height: 90vh;
   }
 
-  .header, .footer {
+  .header {
     text-align: center;
     color: var(--sub-color);
-    font-size: 0.9rem;
+    font-size: 1.2rem;
+    font-weight: bold;
   }
 
-  /* Upper Menu Bar */
+  /* Upper Menu */
   .upper-menu {
     display: flex;
     justify-content: space-between;
@@ -62,7 +64,7 @@ export const GlobalStyles = createGlobalStyle`
   .modes {
     display: flex;
     gap: 15px;
-    background-color: #2c2e31;
+    background-color: rgba(0, 0, 0, 0.15);
     padding: 8px 18px;
     border-radius: 8px;
   }
@@ -77,15 +79,14 @@ export const GlobalStyles = createGlobalStyle`
     color: var(--text-color);
   }
 
-  /* Hidden Input Trap */
+  /* Hidden Input */
   .hidden-input {
     opacity: 0;
     position: absolute;
     left: -9999px;
-    top: -9999px;
   }
 
-  /* Text Container & Cursor Engine */
+  /* Typing Area */
   .typing-box-wrapper {
     position: relative;
     width: 100%;
@@ -98,7 +99,7 @@ export const GlobalStyles = createGlobalStyle`
     flex-wrap: wrap;
     font-size: 1.6rem;
     line-height: 2.4rem;
-    color: var(--sub-color); /* Muted color for untyped text */
+    color: var(--sub-color);
     user-select: none;
     max-height: 140px;
     overflow: hidden;
@@ -110,21 +111,14 @@ export const GlobalStyles = createGlobalStyle`
     display: inline-block;
   }
 
-  .char {
-    position: relative;
-    transition: color 0.1s ease;
-  }
-
-  /* Character State Styles */
   .char.correct {
-    color: var(--text-color); /* Bright white/grey when typed correctly */
+    color: var(--text-color);
   }
 
   .char.incorrect {
-    color: var(--error-color); /* Red on error */
+    color: var(--error-color);
   }
 
-  /* Animated Blinking Caret on active letter */
   .char.current {
     color: var(--text-color);
     border-left: 2px solid var(--main-color);
@@ -136,22 +130,17 @@ export const GlobalStyles = createGlobalStyle`
     50% { border-color: transparent; }
   }
 
-  /* Result Screen Layout */
+  /* Result View */
   .result-view {
     text-align: center;
     padding: 3rem;
-    background: #2c2e31;
+    background: rgba(0, 0, 0, 0.15);
     border-radius: 12px;
   }
 
   .result-view h1 {
     color: var(--main-color);
     margin-bottom: 1rem;
-  }
-
-  .result-view h2 {
-    font-size: 1.8rem;
-    margin: 0.5rem 0;
   }
 
   .result-view button {
@@ -164,10 +153,92 @@ export const GlobalStyles = createGlobalStyle`
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
-    transition: transform 0.1s ease;
   }
 
-  .result-view button:hover {
-    transform: scale(1.05);
+  /* 3-Column Footer Layout */
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-weight: bold;
+    text_decoration: none;
+    padding-top: 2rem;
+    color: var(--sub-color);
+    font-size: 1rem;
   }
+
+  .footer-left {
+    flex: 1;
+    text-align: left;
+    text_decoration: none;
+  }
+
+  .footer-center {
+    flex: 1;
+    text-align: center;
+    text_decoration: none;
+  }
+
+  .footer-right {
+    flex: 1;
+    text-align: right;
+  }
+
+  .github-link {
+    color: var(--sub-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .github-link:hover {
+    color: var(--main-color);
+    text-decoration: underline;
+  }
+
+  .theme-select {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--sub-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease, background-color 0.25s ease;
+  }
+
+  .theme-select:hover, .theme-select:focus {
+    border-color: var(--main-color);
+  }
+
+  .stats-box {
+    display: flex;
+    width: 1000px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-between;
+}
+
+.left-stats {
+    width: 30%;
+    padding: 30px;
+}
+
+.right-stats {
+    width: 70%;
+}
+
+.title {
+    font-size: 20px;
+    color: var(--sub-color);
+}
+
+.subtitle {
+    font-size: 35px;
+    color: var(--main-color);
+    margin-bottom: 20px;
+}
 `;
