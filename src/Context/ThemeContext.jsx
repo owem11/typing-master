@@ -1,11 +1,10 @@
 import { createContext, useContext, useState } from 'react';
 
 export const themeOptions = [
-  { label: 'default', value: { bg: '#000', main: '#b200f8', sub: '#646669', text: '#d1d0c5', error: '#fa0019' } },
-  { label: 'white', value: { bg: '#ffffff', main: '#2b2b2b', sub: '#888888', text: '#111111', error: '#e20800' } },
-  { label: 'terminal', value: { bg: '#000', main: '#00ff66', sub: '#006622', text: '#00ff41', error: '#ff3333' } },
+  { label: 'default', value: { bg: '#323437', main: '#e2b714', sub: '#646669', text: '#d1d0c5', error: '#ca4754' } },
+  { label: 'white', value: { bg: '#ffffff', main: '#2b2b2b', sub: '#888888', text: '#111111', error: '#d9534f' } },
+  { label: 'terminal', value: { bg: '#0d1117', main: '#00ff66', sub: '#006622', text: '#00ff41', error: '#ff3333' } },
 ];
-
 const getRandomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
 
 const ThemeContext = createContext();
