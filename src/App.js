@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <GlobalStyles/>
-      <div className="header">Header</div>
+      <div className="header">Hello Bitches</div>
       <TypingBox/>
       <div className="footer">Footer</div>
     </div>
