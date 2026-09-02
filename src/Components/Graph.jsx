@@ -1,48 +1,47 @@
 import React from 'react';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useTheme } from '../Context/ThemeContext';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
 ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
 );
 
 const Graph = ({ graphData }) => {
-    const { theme } = useTheme();
+  const { theme } = useTheme();
 
-    return (
-        <Line 
-            data={{
-                // Extract time (seconds) for X-axis labels
-                labels: graphData.map((item) => item[0]), 
-                datasets: [
-                    {
-                        label: 'WPM',
-                        // Extract calculated WPM values for Y-axis points
-                        data: graphData.map((item) => item[1]), 
-                        fill: false,
-                        borderColor: theme ? theme.main : '#e2b714',
-                        tension: 0.2
-                    }
-                ]
-            }}
-        /> 
-    );
+  const data = {
+    labels: graphData.map((i) => i[0]),
+    datasets: [
+      {
+        data: graphData.map((i) => i[1]),
+        label: 'WPM',
+        borderColor: theme.main,
+        backgroundColor: theme.main,
+      },
+    ],
+  };
+
+  return (
+    <div style={{ width: '100%' }}>
+      <Line data={data} />
+    </div>
+  );
 };
 
 export default Graph;

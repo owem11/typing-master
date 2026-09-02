@@ -13,17 +13,25 @@ const Stats = ({
         <div className="stats-wrapper">
             <div className="stats-box">
                 <div className="left-stats">
-                    <div className="title">WPM</div>
-                    <div className="subtitle">{wpm}</div>
+                    <div className="stat-block">
+                        <div className="title">WPM</div>
+                        <div className="subtitle">{wpm}</div>
+                    </div>
                     
-                    <div className="title">Accuracy</div>
-                    <div className="subtitle">{accuracy}%</div>
+                    <div className="stat-block">
+                        <div className="title">Accuracy</div>
+                        <div className="subtitle">{accuracy}%</div>
+                    </div>
                     
-                    <div className="title">Correct Words</div>
-                    <div className="subtitle">{correctWords}</div>
+                    <div className="stat-block">
+                        <div className="title">Correct Words</div>
+                        <div className="subtitle">{correctWords}</div>
+                    </div>
 
-                    <div className="title">Incorrect Words</div>
-                    <div className="subtitle">{incorrectWords}</div>
+                    <div className="stat-block">
+                        <div className="title">Incorrect Words</div>
+                        <div className="subtitle">{incorrectWords}</div>
+                    </div>
                 </div>
                 
                 <div className="right-stats">

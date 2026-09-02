@@ -213,36 +213,43 @@ export const GlobalStyles = createGlobalStyle`
     border-color: var(--main-color);
   }
 
-  .stats-box {
+/* Set explicit flex alignment and gap */
+.stats-box {
     display: flex;
-    width: 1000px;
-    height: auto;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    align-items: center;
     justify-content: space-between;
 }
 
 .left-stats {
-    width: 30%;
-    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 30%; /* Limits stats width so graph stays adjacent */
 }
 
-.right-stats {
-    width: 70%;
-}
-
-.title {
-    font-size: 20px;
-    color: var(--sub-color);
+.stat-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .subtitle {
-    font-size: 35px;
+    font-size: 2.2rem;
+    font-weight: bold;
     color: var(--main-color);
-    margin-bottom: 20px;
+    line-height: 1;
+}
+
+.title {
+    font-size: 1rem;
+    color: var(--sub-color);
+    margin-top: 4px;
 }
 .stats-wrapper {
-    display: flex;
+    display: grid;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     width: 100%;
 }
@@ -254,21 +261,78 @@ export const GlobalStyles = createGlobalStyle`
     margin-top: 30px;
 }
 
-.restart-btn {
-    padding: 10px 28px;
-    font-size: 1rem;
-    background-color: var(--main-color);
-    color: var(--bg-color);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+/* Stats Section */
+  .stats-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .stats-box {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .left-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 25%;
+  }
+
+  .stat-block {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: 1.2rem;
+    color: ${({ theme }) => theme.sub};
+    margin-bottom: 0.2rem;
+  }
+
+  .subtitle {
+    font-size: 2.2rem;
     font-weight: bold;
+    color: ${({ theme }) => theme.main};
+    line-height: 1;
+  }
+
+  .right-stats {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Solid Theme Restart Button */
+  .restart-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+.restart-btn {
+    padding: 6px 10px;
+    font-size: 1.5rem;
+    background-color: var(--bg-color);
+    color: var(--sub-color);
+    border: 2px solid var(--sub-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 400;
     transition: opacity 0.2s ease;
 }
 
 .restart-btn:hover {
     opacity: 0.85;
+    color: var(--main-color);
+    border: 2px solid var(--main-color);
 }
-
-
 `;
